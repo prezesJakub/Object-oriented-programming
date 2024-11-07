@@ -23,7 +23,7 @@ public class Animal {
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
     }
-    public void move(MoveDirection direction, MoveValidator validator) {
+    public void move(MoveDirection direction, MoveValidator<Vector2d> validator) {
         Vector2d newPosition = switch (direction) {
             case FORWARD -> this.position.add(this.orientation.toUnitVector());
             case BACKWARD -> this.position.subtract(this.orientation.toUnitVector());

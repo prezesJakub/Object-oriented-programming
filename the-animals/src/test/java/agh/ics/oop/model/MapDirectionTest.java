@@ -16,7 +16,7 @@ class MapDirectionTest {
         //then
         assertEquals(MapDirection.WEST, direction.next());
         assertEquals(MapDirection.EAST, direction.previous());
-        assertEquals("Południe", direction.toString());
+        assertEquals("S", direction.toString());
         assertEquals(new Vector2d(0, -1), direction.toUnitVector());
     }
 
@@ -28,7 +28,7 @@ class MapDirectionTest {
         //then
         assertEquals(MapDirection.NORTH, direction.next());
         assertEquals(MapDirection.SOUTH, direction.previous());
-        assertEquals("Zachód", direction.toString());
+        assertEquals("W", direction.toString());
         assertEquals(new Vector2d(-1, 0), direction.toUnitVector());
     }
 
@@ -40,7 +40,7 @@ class MapDirectionTest {
         //then
         assertEquals(MapDirection.EAST, direction.next());
         assertEquals(MapDirection.WEST, direction.previous());
-        assertEquals("Północ", direction.toString());
+        assertEquals("N", direction.toString());
         assertEquals(new Vector2d(0, 1), direction.toUnitVector());
     }
 
@@ -52,7 +52,7 @@ class MapDirectionTest {
         //then
         assertEquals(MapDirection.SOUTH, direction.next());
         assertEquals(MapDirection.NORTH, direction.previous());
-        assertEquals("Wschód", direction.toString());
+        assertEquals("E", direction.toString());
         assertEquals(new Vector2d(1, 0), direction.toUnitVector());
     }
 }

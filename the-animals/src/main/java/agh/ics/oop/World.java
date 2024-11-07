@@ -2,6 +2,7 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class World {
@@ -16,11 +17,23 @@ public class World {
         Animal animal2 = new Animal(new Vector2d(3, 1));
         System.out.println(animal2);
          */
+
         List<MoveDirection> directions = OptionsParser.parse(args);
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        WorldMap map = new RectangularMap(5, 5);
-        Simulation simulation = new Simulation(positions, directions, map);
+        List<Animal> animals = new ArrayList<>();
+        for (Vector2d position : positions) {
+            animals.add(new Animal(position));
+        }
+        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animals, directions, map);
         simulation.run();
+
+        //Test TextMap
+        List<String> textList = List.of("Ala", "ma", "sowoniedźwiedzia", "a", "Ola", "posiada", "żółwiojaszczurkę");
+        WorldNumberPositionMap<String> textMap = new TextMap();
+        Simulation<String, Number> textSimulation = new Simulation<>(textList, directions, textMap);
+        textSimulation.run();
+
         System.out.println("System zakończył działanie");
     }
     public static void run(List<MoveDirection> arguments)

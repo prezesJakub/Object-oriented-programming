@@ -4,6 +4,7 @@ import agh.ics.oop.model.*;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,9 +16,13 @@ class SimulationTest {
         List<Vector2d> startingPositions = List.of(new Vector2d(2,2), new Vector2d(1,1));
         List<MoveDirection> moves = List.of(MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD);
         RectangularMap map = new RectangularMap(5, 5);
+        List<Animal> animals = new ArrayList<>();
+        for (Vector2d position : startingPositions) {
+            animals.add(new Animal(position));
+        }
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animals, moves, map);
         simulation.run();
 
         //then
@@ -33,9 +38,13 @@ class SimulationTest {
         List<MoveDirection> moves = List.of(MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.RIGHT,
                 MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.FORWARD);
         RectangularMap map = new RectangularMap(5, 5);
+        List<Animal> animals = new ArrayList<>();
+        for (Vector2d position : startingPositions) {
+            animals.add(new Animal(position));
+        }
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animals, moves, map);
         simulation.run();
 
         //then
@@ -53,9 +62,13 @@ class SimulationTest {
                 MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD,
                 MoveDirection.FORWARD, MoveDirection.BACKWARD);
         RectangularMap map = new RectangularMap(5, 5);
+        List<Animal> animals = new ArrayList<>();
+        for (Vector2d position : startingPositions) {
+            animals.add(new Animal(position));
+        }
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animals, moves, map);
         simulation.run();
 
         //then
@@ -75,9 +88,13 @@ class SimulationTest {
         List<MoveDirection> moves = List.of(MoveDirection.FORWARD, MoveDirection.BACKWARD,
                 MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD);
         RectangularMap map = new RectangularMap(5, 5);
+        List<Animal> animals = new ArrayList<>();
+        for (Vector2d position : startingPositions) {
+            animals.add(new Animal(position));
+        }
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animals, moves, map);
         simulation.run();
 
         //then
@@ -93,9 +110,13 @@ class SimulationTest {
         List<Vector2d> startingPositions = List.of(new Vector2d(2,3), new Vector2d(2,2));
         List<MoveDirection> moves = OptionsParser.parse(args);
         RectangularMap map = new RectangularMap(5, 5);
+        List<Animal> animals = new ArrayList<>();
+        for (Vector2d position : startingPositions) {
+            animals.add(new Animal(position));
+        }
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animals, moves, map);
         simulation.run();
 
         //then
@@ -113,9 +134,13 @@ class SimulationTest {
         List<Vector2d> startingPositions = List.of(new Vector2d(2,1), new Vector2d(1,2));
         List<MoveDirection> moves = OptionsParser.parse(args);
         RectangularMap map = new RectangularMap(5, 5);
+        List<Animal> animals = new ArrayList<>();
+        for (Vector2d position : startingPositions) {
+            animals.add(new Animal(position));
+        }
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animals, moves, map);
         simulation.run();
 
         //then
