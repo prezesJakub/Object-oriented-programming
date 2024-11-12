@@ -5,8 +5,7 @@ public class Animal {
     private Vector2d position;
 
     public Animal() {
-        this.orientation = MapDirection.NORTH;
-        this.position = new Vector2d(2,2);
+        this(new Vector2d(2, 2));
     }
     public Animal(Vector2d initialPosition) {
         this.orientation = MapDirection.NORTH;
@@ -19,28 +18,26 @@ public class Animal {
         return this.orientation;
     }
     public String toString() {
-        return position + " " + orientation;
+        return this.orientation.toString();
     }
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
     }
-    public void move(MoveDirection direction) {
-        switch (direction) {
-            case RIGHT -> this.orientation = this.orientation.next();
-            case LEFT -> this.orientation = this.orientation.previous();
-            case FORWARD -> {
-                if (isWithinMap(this.position.add(this.orientation.toUnitVector()))) {
-                    this.position = this.position.add(this.orientation.toUnitVector());
-                }
+    public void move(MoveDirection direction, MoveValidator validator) {
+        Vector2d newPosition = switch (direction) {
+            case FORWARD -> this.position.add(this.orientation.toUnitVector());
+            case BACKWARD -> this.position.subtract(this.orientation.toUnitVector());
+            case RIGHT -> {
+                this.orientation = this.orientation.next();
+                yield this.position;
             }
-            case BACKWARD -> {
-                if (isWithinMap(this.position.subtract(this.orientation.toUnitVector()))) {
-                    this.position = this.position.subtract(this.orientation.toUnitVector());
-                }
+            case LEFT -> {
+                this.orientation = this.orientation.previous();
+                yield this.position;
             }
+        };
+        if(validator.canMoveTo(newPosition)) {
+            this.position = newPosition;
         }
-    }
-    private boolean isWithinMap(Vector2d position) {
-        return position.precedes(new Vector2d(4,4)) && position.follows(new Vector2d(0, 0));
     }
 }

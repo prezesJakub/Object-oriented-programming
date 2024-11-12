@@ -1,9 +1,6 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MapDirection;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.*;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.text.html.Option;
@@ -15,11 +12,12 @@ class SimulationTest {
     @Test
     void animalOrientationTest() {
         //given
-        List<Vector2d> startingPositions = List.of(new Vector2d(2,2), new Vector2d(2,2));
+        List<Vector2d> startingPositions = List.of(new Vector2d(2,2), new Vector2d(1,1));
         List<MoveDirection> moves = List.of(MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD);
+        RectangularMap map = new RectangularMap(5, 5);
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves);
+        Simulation simulation = new Simulation(startingPositions, moves, map);
         simulation.run();
 
         //then
@@ -34,9 +32,10 @@ class SimulationTest {
         List<Vector2d> startingPositions = List.of(new Vector2d(1,3), new Vector2d(3,2));
         List<MoveDirection> moves = List.of(MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.RIGHT,
                 MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.FORWARD);
+        RectangularMap map = new RectangularMap(5, 5);
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves);
+        Simulation simulation = new Simulation(startingPositions, moves, map);
         simulation.run();
 
         //then
@@ -53,9 +52,10 @@ class SimulationTest {
                 MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD,
                 MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD,
                 MoveDirection.FORWARD, MoveDirection.BACKWARD);
+        RectangularMap map = new RectangularMap(5, 5);
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves);
+        Simulation simulation = new Simulation(startingPositions, moves, map);
         simulation.run();
 
         //then
@@ -74,9 +74,10 @@ class SimulationTest {
         List<Vector2d> startingPositions = List.of(new Vector2d(4,4), new Vector2d(0,0));
         List<MoveDirection> moves = List.of(MoveDirection.FORWARD, MoveDirection.BACKWARD,
                 MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD);
+        RectangularMap map = new RectangularMap(5, 5);
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves);
+        Simulation simulation = new Simulation(startingPositions, moves, map);
         simulation.run();
 
         //then
@@ -91,9 +92,10 @@ class SimulationTest {
         String[] args = {"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
         List<Vector2d> startingPositions = List.of(new Vector2d(2,3), new Vector2d(2,2));
         List<MoveDirection> moves = OptionsParser.parse(args);
+        RectangularMap map = new RectangularMap(5, 5);
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves);
+        Simulation simulation = new Simulation(startingPositions, moves, map);
         simulation.run();
 
         //then
@@ -110,9 +112,10 @@ class SimulationTest {
         String[] args = {"trololo","f", "x", "f", "r", "f", "y", "b", "xD"};
         List<Vector2d> startingPositions = List.of(new Vector2d(2,1), new Vector2d(1,2));
         List<MoveDirection> moves = OptionsParser.parse(args);
+        RectangularMap map = new RectangularMap(5, 5);
 
         //when
-        Simulation simulation = new Simulation(startingPositions, moves);
+        Simulation simulation = new Simulation(startingPositions, moves, map);
         simulation.run();
 
         //then
