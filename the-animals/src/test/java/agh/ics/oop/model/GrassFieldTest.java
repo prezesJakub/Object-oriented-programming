@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RectangularMapTest {
+class GrassFieldTest {
     @Test
     void placeTest() {
         //given
-        WorldMap map = new RectangularMap(8, 8);
+        WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(6,6));
         Animal animal2 = new Animal(new Vector2d(6,6));
         Animal animal3 = new Animal(new Vector2d(2,1));
@@ -18,12 +18,13 @@ class RectangularMapTest {
         assertTrue(map.place(animal1));
         assertFalse(map.place(animal2));
         assertTrue(map.place(animal3));
-        assertFalse(map.place(animal4));
+        assertTrue(map.place(animal4));
     }
+
     @Test
     void moveTest() {
         //given
-        WorldMap map = new RectangularMap(8, 8);
+        WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(6,7));
         Animal animal2 = new Animal(new Vector2d(3,3));
         Animal animal3 = new Animal(new Vector2d(2,3));
@@ -44,13 +45,13 @@ class RectangularMapTest {
         assertEquals(new Vector2d(6,6), animal1.getPosition());
         assertEquals(new Vector2d(3,4), animal2.getPosition());
         assertEquals(new Vector2d(2,3), animal3.getPosition());
-        assertEquals(new Vector2d(3,0), animal4.getPosition());
+        assertEquals(new Vector2d(3,-1), animal4.getPosition());
     }
 
     @Test
     void isOccupiedTest() {
         //given
-        WorldMap map = new RectangularMap(5, 6);
+        WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(3,4));
         Animal animal2 = new Animal(new Vector2d(5,3));
         map.place(animal1);
@@ -58,14 +59,14 @@ class RectangularMapTest {
 
         //then
         assertTrue(map.isOccupied(new Vector2d(3,4)));
-        assertFalse(map.isOccupied(new Vector2d(5,3)));
+        assertTrue(map.isOccupied(new Vector2d(5,3)));
         assertFalse(map.isOccupied(new Vector2d(2,2)));
     }
 
     @Test
     void objectAtTest() {
         //given
-        WorldMap map = new RectangularMap(7, 10);
+        WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(3,4));
         Animal animal2 = new Animal(new Vector2d(5,3));
         map.place(animal1);
@@ -76,23 +77,11 @@ class RectangularMapTest {
         assertEquals(animal2, map.objectAt(new Vector2d(5,3)));
         assertNull(map.objectAt(new Vector2d(1, 1)));
     }
-    @Test
-    void canMoveToTestWithOneAnimal() {
-        //given
-        WorldMap map = new RectangularMap(4, 4);
-        Animal animal1 = new Animal(new Vector2d(1,3));
-        map.place(animal1);
 
-        //then
-        assertTrue(map.canMoveTo(new Vector2d(2,3)));
-        assertFalse(map.canMoveTo(new Vector2d(1,4)));
-        assertFalse(map.canMoveTo(new Vector2d(1,3)));
-        assertTrue(map.canMoveTo(new Vector2d(0,1)));
-    }
     @Test
-    void canMoveToTestWithMoreAnimals() {
+    void canMoveTest() {
         //given
-        WorldMap map = new RectangularMap(7, 7);
+        WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(3,4));
         Animal animal2 = new Animal(new Vector2d(5,3));
         map.place(animal1);
@@ -102,12 +91,13 @@ class RectangularMapTest {
         assertFalse(map.canMoveTo(new Vector2d(3,4)));
         assertFalse(map.canMoveTo(new Vector2d(5,3)));
         assertTrue(map.canMoveTo(new Vector2d(2,3)));
-        assertFalse(map.canMoveTo(new Vector2d(3,9)));
+        assertTrue(map.canMoveTo(new Vector2d(3,9)));
     }
+
     @Test
     void rotateOnlyTest() {
         //given
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap map = new GrassField(8);
         Animal animal1 = new Animal(new Vector2d(1,2));
         map.place(animal1);
 
@@ -118,18 +108,17 @@ class RectangularMapTest {
         assertEquals(new Vector2d(1,2), animal1.getPosition());
         assertEquals(MapDirection.EAST, animal1.getOrientation());
     }
-
     @Test
     void getElementsTest() {
         //given
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap map = new GrassField(14);
         Animal animal1 = new Animal(new Vector2d(1,2));
         Animal animal2 = new Animal(new Vector2d(3,1));
         map.place(animal1);
         map.place(animal2);
 
         //then
-        assertEquals(2, map.getElements().size());
-        assertEquals(animal1, map.getElements().get(0));
+        assertEquals(16, map.getElements().size());
+        assertEquals(animal2, map.getElements().get(1));
     }
 }
