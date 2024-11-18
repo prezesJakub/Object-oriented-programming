@@ -13,7 +13,7 @@ public class GrassField extends AbstractWorldMap {
     private final int grassCount;
 
     public GrassField(int grassCount) {
-        this.grassCount = grassCount;
+        this.grassCount = grasses.size();
         int maxCoordinate = (int) Math.sqrt(grassCount*10);
 
         RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(maxCoordinate, maxCoordinate,
@@ -24,13 +24,12 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    protected WorldElement getAdditionalElements(Vector2d position) {
+    public WorldElement objectAt(Vector2d position) {
+        WorldElement object = super.objectAt(position);
+        if (object != null) {
+            return object;
+        }
         return grasses.get(position);
-    }
-
-    @Override
-    public boolean canMoveTo(Vector2d position) {
-        return !animals.containsKey(position);
     }
 
     @Override

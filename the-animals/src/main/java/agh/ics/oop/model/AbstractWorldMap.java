@@ -26,6 +26,11 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
+    public boolean canMoveTo(Vector2d position) {
+        return !animals.containsKey(position);
+    }
+
+    @Override
     public void move(Animal animal, MoveDirection direction) {
         Vector2d oldPosition = animal.getPosition();
         if (objectAt(oldPosition) == animal) {
@@ -43,14 +48,8 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     @Override
     public WorldElement objectAt(Vector2d position) {
-        WorldElement object = animals.get(position);
-        if (object != null) {
-            return object;
-        }
-        return getAdditionalElements(position);
+        return animals.get(position);
     }
-
-    protected abstract WorldElement getAdditionalElements(Vector2d position);
 
     public List<WorldElement> getElements() {
         List<WorldElement> elements = new ArrayList<>(animals.values());

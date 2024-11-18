@@ -14,16 +14,11 @@ public class RectangularMap extends AbstractWorldMap {
     }
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.precedes(upperRight) && position.follows(new Vector2d(0, 0)) && !isOccupied(position);
+        return position.precedes(upperRight) && position.follows(new Vector2d(0, 0)) && super.canMoveTo(position);
     }
 
     @Override
     public String toString() {
         return visualizer.draw(new Vector2d(0,0), upperRight);
-    }
-
-    @Override
-    protected WorldElement getAdditionalElements(Vector2d position) {
-        return null;
     }
 }
