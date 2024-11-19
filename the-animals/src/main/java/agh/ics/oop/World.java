@@ -8,19 +8,22 @@ public class World {
 
     public static void main(String[] args) {
         System.out.println("System wystartował");
-        List<MoveDirection> directionList = OptionsParser.parse(args);
-        /*
-        run(directionList);
-        Animal animal1 = new Animal();
-        System.out.println(animal1);
-        Animal animal2 = new Animal(new Vector2d(3, 1));
-        System.out.println(animal2);
-         */
-        List<MoveDirection> directions = OptionsParser.parse(args);
-        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        WorldMap map = new GrassField(10);
-        Simulation simulation = new Simulation(positions, directions, map);
-        simulation.run();
+
+        try {
+            List<MoveDirection> directions = OptionsParser.parse(args);
+            List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
+            AbstractWorldMap map = new GrassField(10);
+
+            ConsoleMapDisplay display = new ConsoleMapDisplay();
+            map.addObserver(display);
+
+            Simulation simulation = new Simulation(positions, directions, map);
+            simulation.run();
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+            return;
+        }
+
         System.out.println("System zakończył działanie");
     }
     public static void run(List<MoveDirection> arguments)

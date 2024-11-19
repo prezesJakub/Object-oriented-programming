@@ -15,13 +15,13 @@ class RectangularMapTest {
         Animal animal4 = new Animal(new Vector2d(9,12));
 
         //then
-        assertTrue(map.place(animal1));
-        assertFalse(map.place(animal2));
-        assertTrue(map.place(animal3));
-        assertFalse(map.place(animal4));
+        assertDoesNotThrow(() -> map.place(animal1));
+        assertThrows(IncorrectPositionException.class, () -> map.place(animal2));
+        assertDoesNotThrow(() -> map.place(animal3));
+        assertThrows(IncorrectPositionException.class, () -> map.place(animal4));
     }
     @Test
-    void moveTest() {
+    void moveTest() throws IncorrectPositionException {
         //given
         WorldMap map = new RectangularMap(8, 8);
         Animal animal1 = new Animal(new Vector2d(6,7));
@@ -48,11 +48,11 @@ class RectangularMapTest {
     }
 
     @Test
-    void isOccupiedTest() {
+    void isOccupiedTest() throws IncorrectPositionException {
         //given
         WorldMap map = new RectangularMap(5, 6);
         Animal animal1 = new Animal(new Vector2d(3,4));
-        Animal animal2 = new Animal(new Vector2d(5,3));
+        Animal animal2 = new Animal(new Vector2d(4,3));
         map.place(animal1);
         map.place(animal2);
 
@@ -63,7 +63,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void objectAtTest() {
+    void objectAtTest() throws IncorrectPositionException {
         //given
         WorldMap map = new RectangularMap(7, 10);
         Animal animal1 = new Animal(new Vector2d(3,4));
@@ -77,7 +77,7 @@ class RectangularMapTest {
         assertNull(map.objectAt(new Vector2d(1, 1)));
     }
     @Test
-    void canMoveToTestWithOneAnimal() {
+    void canMoveToTestWithOneAnimal() throws IncorrectPositionException {
         //given
         WorldMap map = new RectangularMap(4, 4);
         Animal animal1 = new Animal(new Vector2d(1,3));
@@ -90,7 +90,7 @@ class RectangularMapTest {
         assertTrue(map.canMoveTo(new Vector2d(0,1)));
     }
     @Test
-    void canMoveToTestWithMoreAnimals() {
+    void canMoveToTestWithMoreAnimals() throws IncorrectPositionException {
         //given
         WorldMap map = new RectangularMap(7, 7);
         Animal animal1 = new Animal(new Vector2d(3,4));
@@ -105,7 +105,7 @@ class RectangularMapTest {
         assertFalse(map.canMoveTo(new Vector2d(3,9)));
     }
     @Test
-    void rotateOnlyTest() {
+    void rotateOnlyTest() throws IncorrectPositionException {
         //given
         WorldMap map = new RectangularMap(4, 4);
         Animal animal1 = new Animal(new Vector2d(1,2));
@@ -120,7 +120,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void getElementsTest() {
+    void getElementsTest() throws IncorrectPositionException {
         //given
         WorldMap map = new RectangularMap(4, 4);
         Animal animal1 = new Animal(new Vector2d(1,2));

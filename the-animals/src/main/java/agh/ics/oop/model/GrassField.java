@@ -32,8 +32,7 @@ public class GrassField extends AbstractWorldMap {
         return grasses.get(position);
     }
 
-    @Override
-    public String toString() {
+    public Boundary getCurrentBounds() {
         Vector2d lowerLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
         Vector2d upperRight = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
@@ -46,8 +45,7 @@ public class GrassField extends AbstractWorldMap {
             upperRight = upperRight.upperRight(position);
         }
 
-        MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(lowerLeft, upperRight);
+        return new Boundary(lowerLeft, upperRight);
     }
 
     public List<WorldElement> getElements() {

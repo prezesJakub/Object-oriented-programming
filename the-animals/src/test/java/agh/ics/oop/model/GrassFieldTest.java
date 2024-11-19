@@ -15,14 +15,14 @@ class GrassFieldTest {
         Animal animal4 = new Animal(new Vector2d(9,12));
 
         //then
-        assertTrue(map.place(animal1));
-        assertFalse(map.place(animal2));
-        assertTrue(map.place(animal3));
-        assertTrue(map.place(animal4));
+        assertDoesNotThrow(() -> map.place(animal1));
+        assertThrows(IncorrectPositionException.class, () -> map.place(animal2));
+        assertDoesNotThrow(() -> map.place(animal3));
+        assertDoesNotThrow(() -> map.place(animal4));
     }
 
     @Test
-    void moveTest() {
+    void moveTest() throws IncorrectPositionException {
         //given
         WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(6,7));
@@ -49,7 +49,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void isOccupiedTest() {
+    void isOccupiedTest() throws IncorrectPositionException{
         //given
         WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(3,4));
@@ -64,7 +64,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void objectAtTest() {
+    void objectAtTest() throws IncorrectPositionException{
         //given
         WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(3,4));
@@ -79,7 +79,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void canMoveTest() {
+    void canMoveTest() throws IncorrectPositionException{
         //given
         WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(3,4));
@@ -95,7 +95,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void rotateOnlyTest() {
+    void rotateOnlyTest() throws IncorrectPositionException{
         //given
         WorldMap map = new GrassField(8);
         Animal animal1 = new Animal(new Vector2d(1,2));
@@ -109,7 +109,7 @@ class GrassFieldTest {
         assertEquals(MapDirection.EAST, animal1.getOrientation());
     }
     @Test
-    void getElementsTest() {
+    void getElementsTest() throws IncorrectPositionException{
         //given
         WorldMap map = new GrassField(14);
         Animal animal1 = new Animal(new Vector2d(1,2));
