@@ -106,24 +106,4 @@ class SimulationTest {
         assertEquals(MapDirection.SOUTH, animal1.getOrientation());
         assertEquals(MapDirection.NORTH, animal2.getOrientation());
     }
-    @Test
-    void listOfInvalidCharacters() {
-        //given
-        String[] args = {"trololo","f", "x", "f", "r", "f", "y", "b", "xD"};
-        List<Vector2d> startingPositions = List.of(new Vector2d(2,1), new Vector2d(1,2));
-        List<MoveDirection> moves = OptionsParser.parse(args);
-        RectangularMap map = new RectangularMap(5, 5);
-
-        //when
-        Simulation simulation = new Simulation(startingPositions, moves, map);
-        simulation.run();
-
-        //then
-        Animal animal1 = simulation.getAnimals().get(0);
-        Animal animal2 = simulation.getAnimals().get(1);
-        assertEquals(new Vector2d(1,2), animal1.getPosition());
-        assertEquals(new Vector2d(1,4), animal2.getPosition());
-        assertEquals(MapDirection.EAST, animal1.getOrientation());
-        assertEquals(MapDirection.NORTH, animal2.getOrientation());
-    }
 }

@@ -26,9 +26,19 @@ class OptionsParserTest {
         String[] args = {"b", "f", "x", "h", "l", "r"};
 
         //then
-        List<MoveDirection> expectedResult = List.of(MoveDirection.BACKWARD, MoveDirection.FORWARD,
-        MoveDirection.LEFT, MoveDirection.RIGHT);
-        assertEquals(expectedResult, OptionsParser.parse(args));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(args));
+        assertEquals("x is not legal move specification", exception.getMessage());
+
+    }
+
+    @Test
+    void allInvalidParameters() {
+        //given
+        String[] args = {"siusiak", "pupa", "lololo"};
+
+        //then
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(args));
+        assertEquals("siusiak is not legal move specification", exception.getMessage());
     }
 
 }
