@@ -2,15 +2,19 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.MapVisualizer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     protected final MapVisualizer visualizer = new MapVisualizer(this);
     protected final List<MapChangeListener> observers = new ArrayList<>();
+    private final UUID id = UUID.randomUUID();
+
+
+    @Override
+    public UUID getId() {
+        return id;
+    }
 
     @Override
     public void place(Animal animal) throws IncorrectPositionException {
