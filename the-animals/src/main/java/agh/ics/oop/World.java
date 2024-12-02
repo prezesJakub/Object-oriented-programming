@@ -28,6 +28,7 @@ public class World {
             SimulationEngine engine = new SimulationEngine(List.of(simulation, simulation2));
            // engine.runSync();
             engine.runAsync();
+            engine.awaitSimulationEnds();
 */
             List<Simulation> simulations = new ArrayList<>();
             for (int i=0; i<1000; i++) {
@@ -39,6 +40,7 @@ public class World {
             }
             SimulationEngine engine2 = new SimulationEngine(simulations);
             engine2.runAsyncInThreadPool();
+            engine2.awaitSimulationEnds();
 
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());

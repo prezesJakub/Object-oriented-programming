@@ -19,10 +19,6 @@ public class SimulationEngine {
         return simulationList;
     }
 
-    public List<Thread> getThreadList() {
-        return threadList;
-    }
-
     public void runSync() {
         for (Simulation simulation : simulationList) {
             simulation.run();
@@ -34,13 +30,11 @@ public class SimulationEngine {
             threadList.add(thread);
             thread.start();
         }
-        awaitSimulationEnds();
     }
     public void runAsyncInThreadPool() {
         for (Simulation simulation : simulationList) {
             executorService.submit(simulation);
         }
-        awaitSimulationEnds();
     }
 
     public void awaitSimulationEnds() {
