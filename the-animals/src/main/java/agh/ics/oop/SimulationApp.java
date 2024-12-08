@@ -13,19 +13,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class SimulationApp extends Application {
-    public void start(Stage primaryStage) throws IOException, IncorrectPositionException {
+    public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Simulation App");
         FXMLLoader loader = new FXMLLoader();
+
         loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
         BorderPane viewRoot = loader.load();
-        SimulationPresenter presenter = loader.getController();
-
-        AbstractWorldMap grassField = new GrassField(10);
-        grassField.addObserver(presenter);
-        presenter.setWorldMap(grassField);
-        Animal animal1 = new Animal(new Vector2d(2,3));
-        grassField.place(animal1);
-        grassField.move(animal1, MoveDirection.RIGHT);
 
         configureStage(primaryStage, viewRoot);
         primaryStage.show();
