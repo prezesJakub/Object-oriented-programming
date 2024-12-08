@@ -1,23 +1,23 @@
 package agh.ics.oop.presenter;
 
-import agh.ics.oop.OptionsParser;
-import agh.ics.oop.Simulation;
-import agh.ics.oop.SimulationEngine;
-import agh.ics.oop.World;
+import agh.ics.oop.*;
 import agh.ics.oop.model.*;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SimulationPresenter implements MapChangeListener {
     private static final int MAP_WIDTH = 300;
@@ -33,15 +33,14 @@ public class SimulationPresenter implements MapChangeListener {
     private int cellWidth;
     private int cellHeight;
 
+    private final ExecutorService executorService = Executors.newFixedThreadPool(4);
+
     @FXML
     private GridPane mapGrid;
-
     @FXML
     private Label infoLabel;
-
     @FXML
     private TextField movesTextField;
-
     @FXML
     private Button startButton;
 
@@ -128,19 +127,31 @@ public class SimulationPresenter implements MapChangeListener {
     }
 
     @FXML
-    public void onSimulationStartClicked() {
+    public void onSimulationStartClicked() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/simulation_window.fxml"));
+
+        BorderPane viewRoot = loader.load();
+        SimulationPresenter presenter = loader.getController();
+
         String moves = movesTextField.getText();
         List<MoveDirection> directions = OptionsParser.parse(moves.split(" "));
         List<Vector2d> positions = List.of(new Vector2d(2,3), new Vector2d(6,1));
         AbstractWorldMap map = new GrassField(10);
-        setWorldMap(map);
+        presenter.setWorldMap(map);
 
         Simulation simulation = new Simulation(positions, directions, map);
-        SimulationEngine engine = new SimulationEngine(List.of(simulation));
+        executorService.submit(simulation);
+        Stage stage = new Stage();
+        configureStage(stage, viewRoot);
 
-        infoLabel.setText("Simulation started with moves: " + moves);
-        new Thread(() -> {
-            engine.runAsync();
-        }).start();
+    }
+    private void configureStage(Stage stage, BorderPane viewRoot) {
+        var scene = new Scene(viewRoot);
+        stage.setScene(scene);
+        stage.setTitle("New simulation");
+        stage.minWidthProperty().bind(viewRoot.widthProperty());
+        stage.minHeightProperty().bind(viewRoot.heightProperty());
+        stage.show();
     }
 }
