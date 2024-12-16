@@ -28,8 +28,8 @@ public class World {
             SimulationEngine engine = new SimulationEngine(List.of(simulation, simulation2));
            // engine.runSync();
             engine.runAsync();
-            engine.awaitSimulationEnds();
-*/
+            engine.awaitSimulationEnds();*/
+
             List<Simulation> simulations = new ArrayList<>();
             for (int i=0; i<1000; i++) {
                 AbstractWorldMap map = (i%2 == 0)
@@ -46,7 +46,6 @@ public class World {
             System.out.println("Error: " + e.getMessage());
             return;
         }
-
         System.out.println("System zakończył działanie");
     }
     public static void run(List<MoveDirection> arguments)

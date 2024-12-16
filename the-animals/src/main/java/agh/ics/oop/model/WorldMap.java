@@ -45,6 +45,10 @@ public interface WorldMap extends MoveValidator {
      */
     WorldElement objectAt(Vector2d position);
 
+    void addObserver(MapChangeListener observer);
+
+    void removeObserver(MapChangeListener observer);
+
     UUID getId();
 
     Boundary getCurrentBounds();
