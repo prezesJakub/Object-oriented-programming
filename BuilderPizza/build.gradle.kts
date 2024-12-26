@@ -1,7 +1,6 @@
 plugins {
-	id("application")
+    id("application")
     id("java")
-    id("org.openjfx.javafxplugin") version "0.0.13"
 }
 
 group = "org.example"
@@ -11,11 +10,6 @@ repositories {
     mavenCentral()
 }
 
-javafx {
-    version = "21"
-    modules = listOf("javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web")
-}
-
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -23,10 +17,6 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-}
-
-application {
-	mainClass.set("agh.ics.oop.World")
 }
 
 java {
