@@ -104,13 +104,13 @@ public class SimulationPresenter implements MapChangeListener {
     private void addElements() {
         for(int i=minX; i<=maxX; i++) {
             for(int j=maxY; j>=minY; j--) {
-                Vector2d pos = new Vector2d(i, j);
-                if(map.isOccupied(pos)) {
-                    mapGrid.add(new Label(map.objectAt(pos).toString()), i-minX+1, maxY-j+1);
-                }
-                else {
-                    mapGrid.add(new Label(" "), i-minX+1, maxY-j+1);
-                }
+                final int finalI = i;
+                final int finalJ = j;
+                Vector2d pos = new Vector2d(finalI, finalJ);
+                map.objectAt(pos).map(Object::toString).
+                        ifPresentOrElse(
+                                labelText -> mapGrid.add(new Label(labelText), finalI-minX+1, maxY-finalJ+1),
+                                () -> mapGrid.add(new Label(" "), finalI-minX+1, maxY-finalJ+1));
                 mapGrid.setHalignment(mapGrid.getChildren().get(mapGrid.getChildren().size() - 1), HPos.CENTER);
             }
         }
@@ -138,6 +138,11 @@ public class SimulationPresenter implements MapChangeListener {
         List<MoveDirection> directions = OptionsParser.parse(moves.split(" "));
         List<Vector2d> positions = List.of(new Vector2d(2,3), new Vector2d(6,1));
         AbstractWorldMap map = new GrassField(10);
+        map.addObserver((worldMap, message) -> {
+            String timestamp = java.time.LocalDateTime.now().toString();
+            System.out.println(timestamp + " " + message);
+        });
+
         presenter.setWorldMap(map);
 
         Simulation simulation = new Simulation(positions, directions, map);

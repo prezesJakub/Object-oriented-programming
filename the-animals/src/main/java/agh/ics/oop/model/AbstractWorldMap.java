@@ -35,7 +35,9 @@ public abstract class AbstractWorldMap implements WorldMap {
     @Override
     public void move(Animal animal, MoveDirection direction) {
         Vector2d oldPosition = animal.getPosition();
-        if (objectAt(oldPosition) == animal) {
+        Optional<WorldElement> elementAtOldPosition = objectAt(oldPosition);
+
+        if (elementAtOldPosition.filter(element -> element == animal).isPresent()) {
             animal.move(direction, this);
             animals.remove(oldPosition);
             Vector2d newPosition = animal.getPosition();
@@ -46,12 +48,12 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return objectAt(position) != null;
+        return objectAt(position).isPresent();
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        return animals.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        return Optional.ofNullable(animals.get(position));
     }
 
     public void addObserver(MapChangeListener observer) {
@@ -80,4 +82,10 @@ public abstract class AbstractWorldMap implements WorldMap {
         List<WorldElement> elements = new ArrayList<>(animals.values());
         return elements;
     }
+
+    public List<Animal> getOrderedAnimals() {
+        return animals.values().stream().sorted(Comparator.comparing((Animal a) -> a.getPosition().getX()).
+                thenComparing((Animal a) -> a.getPosition().getY())).toList();
+    }
+
 }

@@ -3,10 +3,8 @@ package agh.ics.oop.model;
 import agh.ics.oop.model.util.MapVisualizer;
 import agh.ics.oop.model.util.RandomPositionGenerator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grasses = new HashMap<>();
@@ -24,12 +22,12 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        WorldElement object = super.objectAt(position);
-        if (object != null) {
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        Optional<WorldElement> object = super.objectAt(position);
+        if (object.isPresent()) {
             return object;
         }
-        return grasses.get(position);
+        return Optional.ofNullable(grasses.get(position));
     }
 
     public Boundary getCurrentBounds() {
@@ -49,8 +47,6 @@ public class GrassField extends AbstractWorldMap {
     }
 
     public List<WorldElement> getElements() {
-        List<WorldElement> elements = super.getElements();
-        elements.addAll(grasses.values());
-        return elements;
+        return Stream.concat(super.getElements().stream(), grasses.values().stream()).toList();
     }
 }
