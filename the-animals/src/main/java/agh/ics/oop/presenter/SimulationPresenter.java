@@ -15,7 +15,9 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,6 +35,7 @@ public class SimulationPresenter implements MapChangeListener {
     private int cellWidth;
     private int cellHeight;
 
+    private final Map<Vector2d, WorldElementBox> elementCache = new HashMap<>();
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     @FXML
@@ -47,6 +50,7 @@ public class SimulationPresenter implements MapChangeListener {
     public void setWorldMap(WorldMap map) {
         this.map = map;
         map.addObserver(this);
+        //map.addObserver(new FileMapDisplay());
     }
 
     private void drawMap() {
@@ -72,10 +76,12 @@ public class SimulationPresenter implements MapChangeListener {
         maxY = bounds.upperRight().getY();
         width = maxX-minX+1;
         height = maxY-minY+1;
-        cellWidth = Math.round(MAP_WIDTH /width);
+        /*cellWidth = Math.round(MAP_WIDTH /width);
         cellHeight = Math.round(MAP_HEIGHT /height);
         cellHeight = Math.min(cellHeight, cellWidth);
-        cellWidth = cellHeight;
+        cellWidth = cellHeight;*/
+        cellWidth = 35;
+        cellHeight = 35;
     }
 
     private void generateTable() {
@@ -107,10 +113,20 @@ public class SimulationPresenter implements MapChangeListener {
                 final int finalI = i;
                 final int finalJ = j;
                 Vector2d pos = new Vector2d(finalI, finalJ);
-                map.objectAt(pos).map(Object::toString).
+                map.objectAt(pos).
                         ifPresentOrElse(
-                                labelText -> mapGrid.add(new Label(labelText), finalI-minX+1, maxY-finalJ+1),
-                                () -> mapGrid.add(new Label(" "), finalI-minX+1, maxY-finalJ+1));
+                                element -> {
+                                    WorldElementBox box = elementCache.get(pos);
+                                    if (box == null || !box.getElement().equals(element)) {
+                                        box = new WorldElementBox(element);
+                                        elementCache.put(pos, box);
+                                    }
+                                    mapGrid.add(box, finalI-minX+1, maxY-finalJ+1);
+                                },
+                                () -> {
+                                    elementCache.remove(pos);
+                                    mapGrid.add(new Label(" "), finalI-minX+1, maxY-finalJ+1);
+                                });
                 mapGrid.setHalignment(mapGrid.getChildren().get(mapGrid.getChildren().size() - 1), HPos.CENTER);
             }
         }
