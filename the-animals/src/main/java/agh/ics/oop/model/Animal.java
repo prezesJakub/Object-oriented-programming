@@ -20,6 +20,17 @@ public class Animal implements WorldElement {
     public String toString() {
         return this.orientation.toString();
     }
+
+    @Override
+    public String getResourceName() {
+        return switch(this.orientation) {
+            case NORTH -> "up.png";
+            case EAST -> "right.png";
+            case SOUTH -> "down.png";
+            case WEST -> "left.png";
+        };
+    }
+
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
     }

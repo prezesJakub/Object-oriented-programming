@@ -73,9 +73,11 @@ class GrassFieldTest {
         map.place(animal2);
 
         //then
-        assertEquals(animal1, map.objectAt(new Vector2d(3,4)));
-        assertEquals(animal2, map.objectAt(new Vector2d(5,3)));
-        assertNull(map.objectAt(new Vector2d(1, 1)));
+        assertTrue(map.objectAt(new Vector2d(3, 4)).isPresent());
+        assertEquals(animal1, map.objectAt(new Vector2d(3,4)).get());
+        assertTrue(map.objectAt(new Vector2d(5, 3)).isPresent());
+        assertEquals(animal2, map.objectAt(new Vector2d(5,3)).get());
+        assertFalse(map.objectAt(new Vector2d(1, 1)).isPresent());
     }
 
     @Test
