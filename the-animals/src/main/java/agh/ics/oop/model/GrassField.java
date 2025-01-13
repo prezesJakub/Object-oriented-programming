@@ -47,6 +47,7 @@ public class GrassField extends AbstractWorldMap {
     }
 
     public List<WorldElement> getElements() {
-        return Stream.concat(super.getElements().stream(), grasses.values().stream()).toList();
+        return Stream.concat(super.getElements().stream(), grasses.values().stream())
+                .toList();
     }
 }
