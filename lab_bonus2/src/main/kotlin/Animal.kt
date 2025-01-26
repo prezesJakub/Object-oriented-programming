@@ -18,6 +18,7 @@ class Animal(
                 position
             }
         }
+        position = newPosition
     }
 
     override fun toString(): String = orientation.toString()
